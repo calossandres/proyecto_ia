@@ -1,75 +1,73 @@
-# Sistema de Visión por Computador en Tiempo Real con MQTT
+# Real-Time Computer Vision System with MQTT
 
-Este proyecto implementa un módulo de inteligencia artificial para visión por computador que opera en tiempo real, diseñado para integrarse en sistemas IoT distribuidos mediante el protocolo MQTT.
+This project implements a real-time computer vision AI module designed to be integrated into distributed IoT systems using the MQTT protocol.
 
-El sistema recibe imágenes desde dispositivos externos (por ejemplo, ESP32, cámaras IP u otros módulos del sistema), procesa la información visual y genera decisiones automáticas basadas en reconocimiento facial y detección de objetos.
+The system receives images from external devices (such as ESP32, IP cameras, or other system modules), processes visual information, and generates automatic decisions based on facial recognition and object detection.
 
-# Objetivo del Proyecto
+# Project Objective
 
-Desarrollar un servicio de inferencia de IA desacoplado, capaz de:
+To develop a decoupled AI inference service capable of:
 
-Recibir imágenes en tiempo real mediante MQTT
+Receiving images in real time via MQTT
 
-Verificar si un rostro está autorizado o no
+Verifying whether a face is authorized or not
 
-Detectar objetos relevantes (personas y animales)
+Detecting relevant objects (people and animals)
 
-Funcionar como módulo independiente dentro de una arquitectura IoT
+Operating as an independent module within an IoT architecture
 
-Este enfoque permite que el sistema escale fácilmente y se integre con otros componentes sin acoplamiento directo.
+This approach allows the system to scale easily and integrate with other components without tight coupling.
 
-# Funcionalidades Principales
+# Core Features
+## Facial Recognition
 
-## Reconocimiento Facial
+Uses the face_recognition library to extract facial embeddings.
 
-Se utiliza la librería face_recognition para extraer embeddings faciales.
+Compares incoming images against a previously authorized reference face.
 
-Se compara la imagen recibida con un rostro previamente autorizado.
+## The system outputs:
 
-El sistema devuelve:
+✅ AUTHORIZED if the face matches
 
-✅ AUTORIZADO si el rostro coincide
+❌ DENIED if it does not match or if no face is detected
 
-❌ DENEGADO si no coincide o no se detecta rostro
 
-# Detección de Objetos (YOLOv8)
+# Object Detection (YOLOv8)
 
-Se integra el modelo YOLOv8 para detección de objetos en imágenes.
+Integrates the YOLOv8 model for object detection in images.
 
-Se identifican clases específicas como:
+Detects specific classes such as:
 
 person
 
 dog
 
-Se reportan las detecciones junto con su nivel de confianza.
+Reports detected objects along with their confidence scores.
 
-# Comunicación por MQTT
+# MQTT Communication
 
-El sistema actúa como cliente suscriptor MQTT.
+The system acts as an MQTT subscriber client.
 
-Recibe imágenes codificadas en Base64 desde un tópico definido.
+Receives Base64-encoded images from a defined topic.
 
-# Puede integrarse fácilmente con:
+Easily integrates with:
 
-Dispositivos embebidos (ESP32)
+Embedded devices (ESP32)
 
-Otros servicios backend
+Other backend services
 
-Sistemas de almacenamiento como MongoDB/GridFS
+Storage systems such as MongoDB / GridFS
 
-
-
-# Estructura del Proyecto
-├── recibidor_mqtt.py      # Servicio principal de IA (suscriptor MQTT)
-├── publicador.py          # Cliente de prueba que envía imágenes
-├── utils.py               # Utilidades para codificar/decodificar imágenes
-├── prueba.jpg             # Imagen del rostro autorizado
-├── yolov8n.pt             # Modelo YOLOv8 preentrenado
-├── requirements.txt       # Dependencias del proyecto
+# Project Structure
+├── recibidor_mqtt.py      # Main AI service (MQTT subscriber)
+├── publicador.py          # Test client that publishes images
+├── utils.py               # Image encoding/decoding utilities
+├── prueba.jpg             # Authorized reference face image
+├── yolov8n.pt             # Pretrained YOLOv8 model
+├── requirements.txt       # Project dependencies
 └── README.md
 
-# Tecnologías Utilizadas
+# Technologies Used
 
 Python
 
@@ -83,45 +81,45 @@ YOLOv8 (Ultralytics)
 
 NumPy
 
-# Cómo Ejecutar el Proyecto en Local
-1️.Iniciar el broker MQTT
+# How to Run the Project Locally
+1️.Start the MQTT broker
 mosquitto
 
-2️.Instalar dependencias
+2️. Install dependencies
 pip install -r requirements.txt
 
-3️. Ejecutar el módulo de IA
+3️.Run the AI module
 python recibidor_mqtt.py
 
 
-El sistema quedará a la espera de imágenes entrantes.
+The system will remain listening for incoming images.
 
-4️.Enviar una imagen de prueba
+4️.Send a test image
 python publicador.py
 
-## Resultado Esperado
+## Expected Output
 
-En la consola del módulo IA se mostrarán mensajes como:
+The AI module console will display messages such as:
 
-🔐 AUTORIZADO ✅
+🔐 AUTHORIZED ✅
 
-❌ DENEGADO
+❌ DENIED
 
-🟢 Detectado: person (0.98)
+🟢 Detected: person (0.98)
 
-⚠️ No se detectaron objetos relevantes
+⚠️ No relevant objects detected
 
 
-# Rol y Aporte Personal
+# Role and Personal Contribution
 
-En este proyecto fui responsable de:
+In this project, I was responsible for:
 
-Diseño del módulo de inferencia de IA
+Designing the AI inference module
 
-Implementación del reconocimiento facial
+Implementing facial recognition logic
 
-Integración de YOLOv8 para detección de objetos
+Integrating YOLOv8 for object detection
 
-Comunicación en tiempo real mediante MQTT
+Enabling real-time communication via MQTT
 
-Desarrollo de un sistema desacoplado y reutilizable
+Developing a decoupled and reusable system architecture
